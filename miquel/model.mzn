@@ -143,6 +143,8 @@ solve satisfy;
 
 % OUTPUT
 
+function int: rcToLinear(int: r, int: c) = (r - 1) * width + c;
+
 function var 0..n_finques: finca_of_point(var 1..N: p) =
   sum(k in Index_Finca)(
     bool2int(p >= start[k] /\ p <= start[k] + npts[k] - 1) * k
@@ -159,17 +161,24 @@ array[1..height, 1..width] of var 0..N: grid =
     | r in 1..height, c in 1..width ]);
 
 output [
-  "Graella per finques (0=buit, 1..n_finques=id finca)\n",
+  "Llegenda: P=parc, C=cami, .=buit, numeros=tipus de finca\n",
+  "Graella:\n",
   concat([ concat([
-            let { int: p = fix(grid[r,c]) } in
-              (if p == 0 then " 0 "
-               else
-                 let { int: v = fix(finques[finca_of_point(p)]) } in
-                   (if v < 10 then " " else "" endif) ++ show(v) ++ " "
-               endif)
-          | c in 1..width ]) ++ "\n"
-        | r in 1..height ])
+    let {
+      int: lin = rcToLinear(r,c),
+      int: p = fix(grid[r,c])
+    } in
+      if lin in parcs then " P "
+      elseif lin in camins then " C "
+      elseif p == 0 then " . "
+      else
+        let { int: v = fix(finques[finca_of_point(p)]) } in
+          (if v < 10 then " " else "" endif) ++ show(v) ++ " "
+      endif
+  | c in 1..width ]) ++ "\n"
+  | r in 1..height ])
 ];
+
 
 
 
