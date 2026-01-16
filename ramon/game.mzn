@@ -109,8 +109,8 @@ constraint forall(i in 1..n_incompatibles) ( % Per a cada parella de incompatibl
         int: finca2 = incompatibles[i, 2]
     } in 
     forall(_fila in 1..alcada_taulell, _columna in 1..amplada_taulell where taulell[_fila,_columna] == finca1) ( % Per a cada casella (fila, columna) de la finca en el taulell
-        forall(_offset_fila, _offset_columna in -1..1 where _offset_fila != 0 \/ _offset_columna != 0) ( % Per a cada casella a dinstància 1 (veina) menys la cassella en si (quan ambdós són 0)
-          % NOTA IMPORTANT: Si no contem la diagonal com a veí, posar XOR = [(_offset_fila != 0 \/ _offset_columna != 0) /\ not (_offset_fila != 0 /\ _offset_columna != 0]
+        forall(_offset_fila, _offset_columna in -1..1 where (_offset_fila != 0 \/ _offset_columna != 0) /\ not (_offset_fila != 0 /\ _offset_columna != 0)) ( % Per a cada casella a dinstància 1 (veina) menys la cassella en si (quan ambdós són 0)
+        
             let {
                 int: _nova_fila = _fila + _offset_fila,
                 int: _nova_columna = _columna + _offset_columna
@@ -132,8 +132,8 @@ array[1..alcada_taulell, 1..amplada_taulell] of bool: matriu_de_parcs = array2d(
 % Finques amb parc
 constraint forall(_finca in finques_amb_parc) (
     exists(_fila in 1..alcada_taulell, _columna in 1..amplada_taulell where taulell[_fila, _columna] == _finca) ( % Qualsevol de les casseles de la finca
-        exists(_offset_fila, _offset_columna in -1..1 where _offset_fila != 0 \/ _offset_columna != 0) ( % Qualsevol casella a dinstància 1 (veina) menys la cassella en si (quan ambdós són 0)
-          % NOTA IMPORTANT: Si no contem la diagonal com a veí, posar XOR = [(_offset_fila != 0 \/ _offset_columna != 0) /\ not (_offset_fila != 0 /\ _offset_columna != 0]
+        exists(_offset_fila, _offset_columna in -1..1 where (_offset_fila != 0 \/ _offset_columna != 0) /\ not (_offset_fila != 0 /\ _offset_columna != 0)) ( % Qualsevol casella a dinstància 1 (veina) menys la cassella en si (quan ambdós són 0)
+         
             let {
                 int: _nova_fila = _fila + _offset_fila,
                 int: _nova_columna = _columna + _offset_columna
@@ -147,7 +147,7 @@ constraint forall(_finca in finques_amb_parc) (
 % ----------------------------- %
 % ---------  SOLVE ------------ %
 % ----------------------------- %
-solve :: int_search(fila ++ columna ++ id_orientacio, first_fail, indomain_min) satisfy; % Cerca per prioritat (first_fail) orientada a finques, no a caselles (fila ++ columna ++ id_odietacio). indomain_prova el valor m'es petit del domini primer
+solve :: int_search(fila ++ columna ++ id_orientacio, input_order, indomain_min) satisfy; % Cerca per prioritat (first_fail) orientada a finques, no a caselles (fila ++ columna ++ id_odietacio). indomain_prova el valor m'es petit del domini primer
 
 % ----------------------------- %
 % --------  OUTPUT ------------ %
