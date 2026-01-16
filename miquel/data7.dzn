@@ -18,17 +18,17 @@ definicio_finques = array2d(1..13, 1..6, [
   (1,1), (1,2), (1,3), (2,1), (2,2), (2,3) %13
 ]);
 
-height = 5;
-width = 5;
+height = 7;
+width = 7;
 
-parcs = {}; % Posicio en format lineal
+parcs = {9, 25, 41}; % Posicio en format lineal
 
-camins = {}; % Posicio en format lineal
+camins = {18, 24, 26, 32}; % Posicio en format lineal
 
-n_finques = 3;
-finques = [1, 2, 3];
+n_finques = 6;
+finques = [3, 5, 7, 8, 11, 13];
 
-n_incompatibles = 0;
-incompatibles = []; % indexos de l'array finques
+n_incompatibles = 2;
+incompatibles = [(1,6), (3,4)]; % indexos de l'array finques
 
-finques_amb_parc = {};
+finques_amb_parc = {2, 5};
