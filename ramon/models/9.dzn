@@ -6,18 +6,18 @@ alcada_taulell = 8; % Alçada del taulell
 amplada_taulell = 8; % Amplada del taulell
 
 n_finques = 9; % Quantes finques hem de posar
-finques = [2,3,5,6,7,8,10,11,12]; % Els tipus de les finques que s'han de posar
+finques = [5, 5, 6, 7, 8, 9, 10, 11, 13]; % Els tipus de les finques que s'han de posar
 
-n_parcs = 4; % Quantes caselles són parcs
-parcs = [|3, 3|3, 6|6, 3|6, 6|]; % Posició en el taulell de les casselles que són parcs
+n_parcs = 7; % Quantes caselles són parcs
+parcs = [|1, 7|1, 8|2, 7|2, 8|3, 7|3, 8|4, 7|]; % Posició en el taulell de les casselles que són parcs
 
-n_camins = 4; % Quantes caselles són camins
-camins = [|4, 4|4,5|5, 4|5, 5|]; % Posició en el taulell de les caselles que són camins
+n_camins = 7; % Quantes caselles són camins
+camins = [|5, 8|6, 1|6, 2|7, 1|7, 2|7, 3|8, 2|]; % Posició en el taulell de les caselles que són camins
 
-n_incompatibles = 4; % Quantes incompatibilitats hi ha 
-incompatibles = [|1, 8|2, 8|3, 7|4, 6|]; % Parelles d'IDS (€ finques) que no poden ser veins
+n_incompatibles = 6; % Quantes incompatibilitats hi ha 
+incompatibles = [|1, 9|2, 9|3, 7|4, 5|6, 8|1, 4|]; % Parelles d'IDS (€ finques) que no poden ser veins
 
-finques_amb_parc = {1, 5, 9}; % IDS (€ finques) que han de tenir parc
+finques_amb_parc = {3, 5, 9}; % IDS (€ finques) que han de tenir parc
 
 
 % ----------------------------- %
