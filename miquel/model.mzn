@@ -7,7 +7,6 @@ function var int: linearToCol(var int: p) = (p - 1) mod width + 1;
 int: n_tipus_finques;
 set of int: Tipus_Finca = 1..n_tipus_finques;
 
-%type Pos = tuple(int,int);
 type Pos = tuple(int,int);
 Pos: PAD = (0,0);
 
@@ -42,24 +41,15 @@ set of Index_Finca: finques_amb_parc;
 
 % Constraints sobre les entrades
 
-
-% RESTRICCIONS
-
-
 array[Index_Finca] of int: npts =
   [ sum(i in 1..maxPts)( bool2int(definicio_finques[finques[k], i] != PAD) )
   | k in Index_Finca ];
 
 int: N = sum(npts);
 
-% Podria fer certes verificacions inicials per si es pot o no, en plan mirar si hi ha suficient espai per posar les finques.
 constraint N <= height*width; %Aixo no esta tenint en compte parcs i camins
 
-
-
-
-
-
+% RESTRICCIONS
 
 array[1..N] of var 1..height*width: solucio;
 
@@ -102,7 +92,6 @@ constraint forall(k in Index_Finca)(
       (d == P[1]) \/ (d == P[2])
   )
 );
-% Crec que necesito 2 indexos per la distancia pero potser podria treballar tot el rato amb numeros absoluts, crec que si que es podria amb absoluts. tot i aixi no sé si es millor que no sigui absolut...
 
 
 % Que no siguin ni parcs ni camins
