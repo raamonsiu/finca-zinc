@@ -123,7 +123,7 @@ constraint forall(k in finques_amb_parc)(
 
 
 
-solve :: int_search(solucio, dom_w_deg, indomain_min) satisfy;
+solve :: int_search(solucio, input_order, indomain_min) satisfy;
 
 
 
