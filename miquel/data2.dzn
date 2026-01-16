@@ -21,14 +21,14 @@ definicio_finques = array2d(1..13, 1..6, [
 height = 6;
 width = 6;
 
-parcs = {15}; % Posicio en format lineal
+parcs = {1, 2, 7 ,30, 35, 36}; % Posicio en format lineal
 
-camins = {16, 17, 18}; % Posicio en format lineal
+camins = {21, 22, 27, 33}; % Posicio en format lineal
 
-n_finques = 5;
-finques = [2, 3, 7, 8, 11];
+n_finques = 4;
+finques = [2, 3, 7, 8];
 
 n_incompatibles = 0;
 incompatibles = []; % indexos de l'array finques
 
-finques_amb_parc = {1};
+finques_amb_parc = {};
