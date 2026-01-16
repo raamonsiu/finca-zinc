@@ -1,0 +1,130 @@
+% ----------------------------- %
+% ----  DADES D'ENTRADA ------- %
+% ----------------------------- %
+
+alcada_taulell = 13; % Alçada del taulell
+amplada_taulell = 6; % Amplada del taulell
+
+n_finques = 10; % Quantes finques hem de posar
+finques = [1, 2, 3, 3, 3, 5, 6, 7, 9, 9]; % Els tipus de les finques que s'han de posar
+
+n_parcs = 5; % Quantes caselles són parcs
+parcs = [|1,5|2,5|3,5|5,2|5,3|]; % Posició en el taulell de les casselles que són parcs
+
+n_camins = 4; % Quantes caselles són camins
+camins = [|7,4|7,5|7,6|8,4|]; % Posició en el taulell de les caselles que són camins
+
+n_incompatibles = 4; % Quantes incompatibilitats hi ha 
+incompatibles = [|1, 7|1, 8|1, 9|1, 10|]; % Parelles d'IDS (€ finques) que no poden ser veins
+
+finques_amb_parc = {5, 6}; % IDS (€ finques) que han de tenir parc
+
+
+% ----------------------------- %
+% --  DADES DE CONFIGURACIÓ --- %
+% -------  (no tocar) --------- %
+% ----------------------------- %
+
+n_tipus = 13; % Tipus de finques diferents
+
+total_orientacions = 65; % Suma total de les orientacions
+maxim_caselles = 6; % Caselles que ocupa la peça que n'ocupa més
+
+inici_orientacions = [1, 9, 11, 19, 27, 35, 39, 43, 47, 51, 52, 60, 64]; % On comença les orientacions de cada peça  
+orientacions_finques = [8, 2, 8, 8, 8, 4, 4, 4, 4, 1, 8, 4, 2]; % Orientacions de cada finca respectivament
+caselles_finques = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6]; % Caselles que té cada finca, respectivament
+
+finques_amb_orientacions = array3d(1..total_orientacions, 1..maxim_caselles, 1..2, [
+    % Tipo 1 (8 orientacions)
+    1,2, 1,3, 2,1, 2,2, 3,2, 0,0,
+    1,1, 2,1, 2,2, 2,3, 3,2, 0,0,
+    1,2, 2,2, 2,3, 3,1, 3,2, 0,0,
+    1,2, 2,1, 2,2, 2,3, 3,2, 0,0,
+    1,1, 1,2, 2,2, 2,3, 3,2, 0,0,
+    1,3, 2,1, 2,2, 2,3, 3,2, 0,0,
+    1,2, 2,1, 2,2, 3,2, 3,3, 0,0,
+    1,2, 2,1, 2,2, 2,3, 3,1, 0,0,
+    
+    % Tipo 2 Línia de 5 blocs
+    1,1, 1,2, 1,3, 1,4, 1,5, 0,0,
+    1,1, 2,1, 3,1, 4,1, 5,1, 0,0,
+    
+    % Tipus 3 Una L 5 blocs
+    1,1, 2,1, 3,1, 4,1, 4,2, 0,0,
+    1,2, 2,2, 3,2, 4,1, 4,2, 0,0,
+    1,4, 2,1, 2,2, 2,3, 2,4, 0,0,
+    1,1, 2,1, 2,2, 2,3, 2,4, 0,0,
+    1,1, 1,2, 2,2, 3,2, 4,2, 0,0,
+    1,1, 1,2, 2,1, 3,1, 4,1, 0,0,
+    1,1, 1,2, 1,3, 1,4, 2,1, 0,0,
+    1,1, 1,2, 1,3, 1,4, 2,4, 0,0,
+    
+    % Tipus 4 
+    1,1, 2,1, 3,1, 3,2, 4,2, 0,0,
+    1,2, 2,2, 3,1, 3,2, 4,1, 0,0,
+    1,3, 1,4, 2,1, 2,2, 2,3, 0,0,
+    1,1, 1,2, 2,2, 2,3, 2,4, 0,0,
+    1,1, 2,1, 2,2, 3,2, 4,2, 0,0,
+    1,2, 2,1, 2,2, 3,1, 4,1, 0,0,
+    1,2, 1,3, 1,4, 2,1, 2,2, 0,0,
+    1,1, 1,2, 1,3, 2,3, 3,4, 0,0,
+    
+    % Tipus 5
+    1,1, 1,2, 2,1, 2,2, 3,1, 0,0,
+    1,1, 1,2, 2,1, 2,2, 3,2, 0,0,
+    1,1, 1,2, 2,1, 2,2, 2,3, 0,0,
+    1,2, 1,3, 2,1, 2,2, 2,3, 0,0,
+    1,2, 2,1, 2,2, 3,1, 3,2, 0,0,
+    1,1, 2,1, 2,2, 3,1, 3,2, 0,0,
+    1,1, 1,2, 1,3, 2,2, 2,3, 0,0,
+    1,1, 1,2, 1,3, 2,1, 2,2, 0,0,
+    
+    % Tipus 6 Una T 4 Orientacions
+    1,1, 1,2, 1,3, 2,2, 3,2, 0,0,
+    1,1, 2,1, 2,2, 2,3, 3,1, 0,0,
+    1,2, 2,2, 3,1, 3,2, 3,3, 0,0,
+    1,3, 2,1, 2,2, 2,3, 3,3, 0,0,
+    
+    % Tipus 7 Una U 4 Orientacions
+    1,1, 1,3, 2,1, 2,2, 2,3, 0,0,
+    1,1, 1,2, 2,2, 3,1, 3,2, 0,0,
+    1,1, 1,2, 1,3, 2,1, 2,3, 0,0,
+    1,1, 1,2, 2,1, 3,1, 3,2, 0,0,
+    
+    % Tipus 8 Una L llarga 4 orientacions
+    1,1, 2,1, 3,1, 3,2, 3,3, 0,0,
+    1,3, 2,3, 3,1, 3,2, 3,3, 0,0,
+    1,1, 1,2, 1,3, 2,1, 3,1, 0,0,
+    1,1, 1,2, 1,3, 2,3, 3,3, 0,0,
+    
+    % Tipus 9 W rara 4 orientacions
+    1,1, 2,1, 2,2, 3,2, 3,3, 0,0,
+    1,3, 2,2, 2,3, 3,1, 3,2, 0,0,
+    1,1, 1,2, 2,2, 2,3, 3,3, 0,0,
+    1,2, 1,3, 2,1, 2,2, 3,1, 0,0,
+    
+    % Tipus 10 Una Creu 1 orientacio
+    1,2, 2,1, 2,2, 2,3, 3,2, 0,0,
+    
+    % Tipus 11 8 orientacions
+    1,2, 2,1, 2,2, 3,2, 4,2, 0,0,
+    1,1, 2,1, 2,2, 3,1, 4,1, 0,0,
+    1,1, 1,2, 1,3, 1,4, 2,2, 0,0,
+    1,1, 1,2, 1,3, 1,4, 2,3, 0,0,
+    1,1, 2,1, 3,1, 3,2, 4,1, 0,0,
+    1,2, 2,2, 3,1, 3,2, 4,2, 0,0,
+    1,3, 2,1, 2,2, 2,3, 2,4, 0,0,
+    1,2, 2,1, 2,2, 2,3, 2,4, 0,0,
+    
+    % Tipus 12 Z 4 orientacions
+    1,1, 1,2, 2,2, 3,2, 3,3, 0,0,
+    1,2, 1,3, 2,2, 3,1, 3,2, 0,0,
+    1,3, 2,1, 2,2, 2,3, 3,1, 0,0,
+    1,1, 2,1, 2,2, 2,3, 3,3, 0,0,
+    
+    % Tipus 13 Rectangle 2 orientacions
+    1,1, 1,2, 1,3, 2,1, 2,2, 2,3,
+    1,1, 1,2, 2,1, 2,2, 3,1, 3,2, 
+    
+    
+]);
