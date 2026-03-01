@@ -1,6 +1,6 @@
-n_tipus_finques = 13;
+n_tipus_finques = 13; % n_tipus_finques means number of estate types
 
-maxPts = 6;
+maxPts = 6; % maxPts means max cells used to define one estate type
 
 definicio_finques = array2d(1..13, 1..6, [
   (1,2), (1,3), (2,1), (2,2), (3,2), (0,0),%1
@@ -18,17 +18,17 @@ definicio_finques = array2d(1..13, 1..6, [
   (1,1), (1,2), (1,3), (2,1), (2,2), (2,3) %13
 ]);
 
-height = 6;
-width = 6;
+height = 6; % height means board height
+width = 6; % width means board width
 
-parcs = {1, 2, 7 ,30, 35, 36}; % Posicio en format lineal
+parcs = {1, 2, 7 ,30, 35, 36}; % Position in linear format
 
-camins = {21, 22, 27, 33}; % Posicio en format lineal
+camins = {21, 22, 27, 33}; % Position in linear format
 
-n_finques = 4;
-finques = [2, 3, 7, 8];
+n_finques = 4; % n_finques means number of estates to place
+finques = [2, 3, 7, 8]; % finques lists the estate type for each estate index
 
-n_incompatibles = 0;
-incompatibles = []; % indexos de l'array finques
+n_incompatibles = 0; % n_incompatibles means number of incompatible pairs
+incompatibles = []; % indexes of the finques array
 
-finques_amb_parc = {};
+finques_amb_parc = {}; % finques_amb_parc lists estates that must be adjacent to a park

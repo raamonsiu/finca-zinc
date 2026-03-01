@@ -3,60 +3,60 @@ include "globals.mzn";
 function var int: linearToRow(var int: p) = (p - 1) div width + 1;
 function var int: linearToCol(var int: p) = (p - 1) mod width + 1;
 
-% Especificació tipus de finques
-int: n_tipus_finques;
-set of int: Tipus_Finca = 1..n_tipus_finques;
+% Specification of estate types
+int: n_tipus_finques; % n_tipus_finques means number of estate types
+set of int: Tipus_Finca = 1..n_tipus_finques; % Tipus_Finca is the domain of estate type IDs
 
 type Pos = tuple(int,int);
-Pos: PAD = (0,0);
+Pos: PAD = (0,0); % PAD marks unused cells in shape definitions
 
-int: maxPts;
+int: maxPts; % maxPts means max cells used to define one estate type
 
-array[Tipus_Finca, 1..maxPts] of Pos: definicio_finques;
+array[Tipus_Finca, 1..maxPts] of Pos: definicio_finques; % definicio_finques stores relative shape cells per estate type
 
-% Dimensions de la parcel·la a edificar
-int: height;
-int: width;
+% Buildable plot dimensions
+int: height; % height means board height
+int: width; % width means board width
 
-% Caselles destinades a parcs
-set of int: parcs;
+% Cells reserved for parks
+set of int: parcs; % parcs means linear indexes of park cells
 
-% Caselles destinades a camins
-set of int: camins;
+% Cells reserved for paths
+set of int: camins; % camins means linear indexes of path cells
 
-% Finques que s’han de posar, indicat el tipus que és
-int: n_finques;
-array[1..n_finques] of Tipus_Finca: finques;
+% Estates to place, indicating their type
+int: n_finques; % n_finques means number of estates to place
+array[1..n_finques] of Tipus_Finca: finques; % finques maps each estate index to its type
 
-% Parelles de finques que no es poden tocar
-set of int: Index_Finca = 1..n_finques;
+% Pairs of estates that cannot touch
+set of int: Index_Finca = 1..n_finques; % Index_Finca is the set of estate indexes
 
-int: n_incompatibles;
+int: n_incompatibles; % n_incompatibles means number of incompatible estate pairs
 type Incompatibles = tuple(Index_Finca, Index_Finca);
 
-array[1..n_incompatibles] of Incompatibles: incompatibles;
+array[1..n_incompatibles] of Incompatibles: incompatibles; % incompatibles stores estate index pairs that cannot touch
 
-% Finques que han de tenir com a veí una casella de parc com a mínim
-set of Index_Finca: finques_amb_parc;
+% Estates that must have at least one adjacent park cell
+set of Index_Finca: finques_amb_parc; % finques_amb_parc are estates that must touch a park
 
-% Constraints sobre les entrades
+% Input constraints
 
-array[Index_Finca] of int: npts =
+array[Index_Finca] of int: npts = % npts is the number of occupied cells for each estate
   [ sum(i in 1..maxPts)( bool2int(definicio_finques[finques[k], i] != PAD) )
   | k in Index_Finca ];
 
-int: N = sum(npts);
+int: N = sum(npts); % N is total occupied cells from all estates
 
-constraint N <= height*width; %Aixo no esta tenint en compte parcs i camins
+constraint N <= height*width; % This does not account for parks and paths
 
-% RESTRICCIONS
+% CONSTRAINTS
 
-array[1..N] of var 1..height*width: solucio;
+array[1..N] of var 1..height*width: solucio; % solucio assigns a board position to each occupied cell slot
 
-% Que totes les finques estiguin posades
+% All estates must be placed
 constraint alldifferent(solucio);
 
-% Que cada peça estigui ben posada segons la seva definicio_finques
+% Each piece must be placed according to definicio_finques
 array[Index_Finca] of int: start = [ 1 + sum(t in 1..k-1)(npts[t]) | k in Index_Finca ]; 
 function set of int: idxs(int: k) = start[k] .. start[k] + npts[k] - 1;
 
@@ -94,12 +94,12 @@ constraint forall(k in Index_Finca)(
 );
 
 
-% Que no siguin ni parcs ni camins
-set of int: forb = parcs union camins;
+% Must not be parks or paths
+set of int: forb = parcs union camins; % forb is the set of forbidden cells for estates
 constraint forall(p in 1..N)(not (solucio[p] in forb) );
 
 
-% Incompatibilitats
+% Incompatibilities
 function var bool: adjacent4(var int: a, var int: b) =
   abs(linearToRow(a) - linearToRow(b)) + abs(linearToCol(a) - linearToCol(b)) == 1;
 
@@ -113,7 +113,7 @@ constraint forall(m in 1..n_incompatibles)(
   )
 );
 
-% finques amb parc
+% estates with park
 
 constraint forall(k in finques_amb_parc)(
   exists(p in idxs(k), q in parcs)(
